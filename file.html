@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja" >
+  <head>
+    <meta charset="utf-8">
+    <title>file,pass</title>
+  </head>
+  <body>
+    <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+
+
+<script>
+function act(){
+  let socket = io.connect();
+  $("#uploadfile").submit(function(e){
+    socket.emit("emit_data",e);
+    e.preventDefault();//submitの実行を止める
+  });
+  socket.on("data_from_server",function(data){
+    console.log(data);
+  });
+};
+act();
+</script>
+  </body>
+</html>
