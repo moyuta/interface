@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+  </script>
+  <meta charset="utf-8">
+  <title>chat</title>
+</head>
+<body>
+  <h1>chat</h1>
+  <p>user:<b><span id="msg_name"> </span></b></p>
+  <p>id  :<b><span id="msg_pass"> </span></b></p>
+  <p><a href="/">▶︎topへ</a></p>
+  <p><a href="/file.html">▶︎ファイル提出へ</a></p>
+  <hr />
+
+  <ul id="logs"></ul>
+  <hr />
+  <p>メッセージを入力してください:</p>
+  <form name ="chat">
+    <input type="text" name="message">
+    <input type="submit" value="送信">
+  </form>
+
+
+  <script>
+  let form_name = window.sessionStorage.getItem(['user_name']) ;
+  let form_pass = window.sessionStorage.getItem(['user_pass']) ;
+  let result_name = document.getElementById("msg_name") ;
+  let result_pass = document.getElementById("msg_pass") ;
+  let result_msg = document.getElementById("msg") ;
+  result_name.innerHTML=form_name ;
+  result_pass.innerHTML=form_pass ;
+
+  function a(){
+    let socket = io.connect();
+    $(`form[name="chat"]`).submit(function(e){
+      let message = $(`input[name="message"]`).val() ;
+      $("#logs").append($("<li>").text("[" + form_name + "]" + message + "{"+new Date()+"}")) ;
+      socket.emit("msg",{
+        name : form_name,
+        msg : message
+      });
+      e.preventDefault();
+    });
+    socket.on("msg_list",(list)=>{
+      for(let i=0;i<list.length;i++){
+        $("#logs").append($("<li>").text("["+ list[i].user+ "]" + list[i].message + "{"+ list[i].time + "}")) ;
+      }
+    }) ;
+  } ;
+  a() ;
+  </script>
+
+</body>
+</html>

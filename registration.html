@@ -3,40 +3,36 @@
 <head>
   <meta charset="utf-8">
   <title>socket.io</title>
+  <h1>登録画面</h1>
 </head>
 <body>
-  <h1>登録画面</h1>
   <h2>名前と学生番号を入力してください</h2>
   <form name="myid">
     <input type="text" name="name">
     <input type="number" name="password">
     <input type="submit" value="送信">
+    <div id="result"></div>
+  </form>
+  <p><a href="./">▶︎topへ</a></p>
 
-    <p><a href="./">▶︎topへ</a></p>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+  </script>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    </script>
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-    <script>
-
-    function act(){
-      let socket = io.connect();
-      $(`form[name="myid"]`).submit(function(e){
-        socket.json.emit("emit_data",{
-          name:$(`input[name="name"]`).val(),
-          password:$(`input[name="password"]`).val()
-        });
-        e.preventDefault();//submitの実行を止める
+  function act(){
+    let socket = io.connect() ;
+    $(`form[name="myid"]`).submit(function(e){
+      socket.json.emit("emit_data",{
+        name:$(`input[name="name"]`).val(),
+        password:$(`input[name="password"]`).val()
       });
-      socket.on("data_from_server",function(data){
-        console.log(data);
-      });
-    };
-    act();
-
-    </script>
-
-
-
-  </body>
-  </html>
+      e.preventDefault();
+      let result = document.getElementById("result");
+      result.innerHTML= $(`input[name="name"]`).val() + "さんを登録しました" ;
+    }) ;
+  } ;
+  act() ;
+  </script>
+</body>
+</html>

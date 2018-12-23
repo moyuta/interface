@@ -1,31 +1,128 @@
 <!DOCTYPE html>
 <html lang="ja" >
-  <head>
-    <meta charset="utf-8">
-    <title>file,pass</title>
-  </head>
-  <body>
-    <form action="fileupload" method="post" enctype="multipart/form-data">
+<head>
+  <meta charset="utf-8">
+  <title>file,pass</title>
+</head>
+<body>
+  <h1>ファイル提出</h1>
+  <p>user:<b><span id="msg_name"> </span></b></p>
+  <p>id  :<b><span id="msg_pass"> </span></b></p>
+  <p><a href ="/">▶︎topへ</a></p>
+  <p><a href="/chat.html">▶︎チャット</a></p>
+  <hr />
+  <h2>第1回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
-    </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    </script>
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  </form>
+  <hr />
+  <h2>第2回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第3回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第4回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第5回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第6回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第7回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第8回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第9回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第10回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第11回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第12回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第13回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+
+  <hr />
+  <h2>第14回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+  <h2>第15回</h2>
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  <hr />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
 
 
-<script>
-function act(){
-  let socket = io.connect();
-  $("#uploadfile").submit(function(e){
-    socket.emit("emit_data",e);
-    e.preventDefault();//submitの実行を止める
-  });
-  socket.on("data_from_server",function(data){
-    console.log(data);
-  });
-};
-act();
-</script>
-  </body>
+  <script>
+  let form_name = window.sessionStorage.getItem(["user_name"]) ;
+  let form_pass = window.sessionStorage.getItem(["user_pass"]) ;
+  let result_name = document.getElementById("msg_name") ;
+  let result_pass = document.getElementById("msg_pass") ;
+  result_name.innerHTML= form_name ;
+  result_pass.innerHTML= form_pass ;
+
+  function act(){
+    let socket = io.connect() ;
+    $("#uploadfile").submit(function(e){
+      socket.emit("emit_data",e) ;
+      e.preventDefault();//submitの実行を止める
+    });
+  } ;
+  act() ;
+  </script>
+</body>
 </html>

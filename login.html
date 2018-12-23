@@ -3,26 +3,52 @@
 <head>
   <meta charset="utf-8">
   <title>socket.io</title>
-</head>
-<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
   <h1>ログイン画面</h1>
+  <hr />
+</head>
+
+<body>
+
   <h2>名前とパスワードを入力してください</h2>
   <form name="myid">
     <input type="text" name="name">
     <input type="number" name="password">
     <input type="submit" value="送信">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    </script>
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-    <script>
-       let socket = io.connect();
-      $(`form[name="myid"]`).submit(function(e){
-        socket.json.emit("emit_data",{
-          name:$(`input[name="name"]`).val(),
-          password:$(`input[name="password"]`).val()
-        });
-     e.preventDefault();//submitの実行を止める
-     });
-    </script>
-  </body>
-  </html>
+  </form>
+  <p><a href="/">▶︎topへ戻る</a></p>
+
+  <script>
+  let socket = io.connect() ;
+  let form_name = "" ;
+  let form_pass = "" ;
+  form_name = window.sessionStorage.getItem(['user_name']) ;
+  form_pass = window.sessionStorage.getItem(['user_pass']) ;
+  socket.on("key",(key)=>{
+    console.log(key) ;
+     $(`form[name="myid"]`).submit(function(e){
+      console.log("hi") ;
+      form_name = $(`input[name="name"]`).val() ;
+      form_pass = $(`input[name="password"]`).val() ;
+      let encrypted_name = CryptoJS.AES.encrypt(form_name, key) ;
+      let encrypted_pass = CryptoJS.AES.encrypt(form_pass, key) ;
+      console.log(encrypted_name.toString()) ;
+      console.log(encrypted_pass.toString()) ;
+      window.sessionStorage.setItem(['user_name'],[form_name]) ;
+      window.sessionStorage.setItem(['user_pass'],[form_pass]) ;
+      form_name = window.sessionStorage.getItem(['user_name']) ;
+      form_pass = window.sessionStorage.getItem(['user_pass']) ;
+
+      socket.emit("cryp",{
+        name : encrypted_name.toString(),
+        password : encrypted_pass.toString()
+      }) ;
+      e.preventDefault();
+    }) ;
+    }) ;
+    
+</script>
+</body>
+</html>

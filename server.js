@@ -1,68 +1,67 @@
-let fs  = require("fs") ;
-let url = require('url') ;
 let app = require("http").createServer(handler).listen(3000) ;
 console.log("server start!") ;
 
-const login_true=fs.readFileSync("login_true.html","utf8");
+let fs  = require("fs") ;
+let login = fs.readFileSync("./login.html") ;
+let registration = fs.readFileSync("./registration.html") ;
+let top =  fs.readFileSync("./top.html") ;
+let file = fs.readFileSync("./file.html") ;
+let chat = fs.readFileSync("./chat.html") ;
+let upload = fs.readFileSync("./upload.html") ;
 
+let url = require('url') ;
+let qs = require("querystring") ;
 function handler(req,res){
-  var q = url.parse(req.url, true) ;
+  res.writeHead(200,{"Content-Type":"text/html; charset=utf-8"}) ;
+  let q = url.parse(req.url, true) ;
 
   switch(q.pathname){
-    case "/":
-    fs.readFile("./top.html","utf8",write_res) ;
-    break ;
-
-    case "/login.html":
-    fs.readFile("./login.html","utf8",(err,data)=>{
-      if(err){
-        res.writeHead(500) ;
-        return res.end("Error") ;
-      }
-      res.writeHead(200,{"Content-Type":"text/html"}) ;
-      res.write(data) ;
-      login_socket(req,res,function(){
-        res.end() ;
-      });
-    });
+    case "/" :
+    res.write(top) ;
+    res.end() ;
     break ;
 
 
-    case "/file.html":
-    fs.readFile("./file.html","utf8",(err,data)=>{
-      res.writeHead(200);
-      res.write(data);
-      res.end();
-    });
+    case "/login.html" :
+    res.write(login) ;
+    login_socket(req,res,function(){
+      res.end() ;
+    })
+    break ;
+
+
+    case "/registration.html" :
+    res.write(registration) ;
+    registration_socket(req,res) ;
+    res.end() ;
+    break ;
+
+    case "/file.html" :
+    res.write(file) ;
+    res.end() ;
+    break ;
+
+    case "/chat.html" :
+    res.write(chat) ;
+    chat_socket(function(){
+      res.end() ;
+    }) ;
     break ;
 
     case "/fileupload" :
-    file_socket(req, res);
-    res.write('File uploaded and moved!');
-    res.end();
-    break ;
-
-    case "/registration.html":
-    fs.readFile("./registration.html","utf8",write_res) ;
-    registration_socket() ;
+    res.write(upload) ;
+    file_socket(req,res) ;
+    res.end() ;
     break ;
 
     default :
     res.writeHead(500) ;
     return res.end("Error") ;
     break ;
-  }
+  } ;
+} ;
 
-  function write_res(err,data){
-    if(err){
-      res.writeHead(500) ;
-      return res.end("Error") ;
-    }
-    res.writeHead(200,{"Content-Type":"text/html"}) ;
-    res.write(data) ;
-    res.end() ;
-  }
-}
+
 
 let io  = require("socket.io").listen(app) ;
 let Mongo = require("./mongo.js") ;
@@ -75,30 +74,53 @@ function registration_socket(req,res){
       user.registration() ;
     });
   });
-}
+} ;
 
+
+let crypto = require("./crypto.js") ;
 function login_socket(req,res){
 
-  io.sockets.on("connection",function(socket){
-    socket.on("emit_data",function(data){
-      console.log(data) ;
-      let user = new Mongo(data.name,data.password) ;
+  io.sockets.on("connection",(socket)=>{
+    let key = "aiueo" ;
+    socket.emit("key",key) ;
+    console.log("keysend!") ;
+    socket.on("cryp",(data)=>{
+      let id = socket.id ;
+      let name = crypto(data.name,key) ;
+      let password = crypto(data.password,key) ;
+      io.to(id).emit("name",name) ;
+      console.log("暗号:" + data.name + "\n複合:"+ name) ;
+      console.log("暗号:" + data.password + "\n複合:" + password) ;
+      let user = new Mongo(name,password) ;
       user.login(req,res) ;
     });
   });
-}
+} ;
 
-
-let file = require("./file.js") ;
+let filemove = require("./file.js") ;
 
 function file_socket(req,res){
-  file(req,res);
+  filemove(req,res);
+
   io.sockets.on("connection",function(socket){
     console.log("connect") ;
     socket.on("upload",function(data){
+      let id = socket.id ;
       console.log(data) ;
-      socket.emit("move",data);
+      socket.to(id).emit("state","提出済") ;
     });
   });
-
-}
+} ;
+let chat_insert=require("./chat.js").insert ;
+let chat_find=require("./chat.js").findall ;
+function chat_socket(req,res){
+  io.sockets.on("connection",function(socket){
+    socket.on("msg",function(data){
+      let time = new Date() ;
+      chat_insert(data.name,data.msg,time) ;
+    }) ;
+    chat_find().then(function(data) {
+      socket.emit("msg_list",data);
+    }) ;
+  });
+};
