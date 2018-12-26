@@ -8,12 +8,27 @@ let top =  fs.readFileSync("./top.html") ;
 let file = fs.readFileSync("./file.html") ;
 let chat = fs.readFileSync("./chat.html") ;
 let upload = fs.readFileSync("./upload.html") ;
+let teacher = fs.readFileSync("./teacher.html") ;
+
 
 let url = require('url') ;
 let qs = require("querystring") ;
+let score = require("./score.js")
 function handler(req,res){
   res.writeHead(200,{"Content-Type":"text/html; charset=utf-8"}) ;
   let q = url.parse(req.url, true) ;
+  if(req.method == "POST"){
+
+    let box = "" ;
+    req.on("data",function(data){
+      box += data ;
+    }) ;
+    req.on("end",function(){
+      score(box) ;
+      console.log(box) ;
+      res.end() ;
+    }) ;
+}
 
   switch(q.pathname){
     case "/" :
@@ -21,6 +36,10 @@ function handler(req,res){
     res.end() ;
     break ;
 
+    case "/teacher.html" :
+    res.write(teacher) ;
+    res.end() ;
+    break ;
 
     case "/login.html" :
     res.write(login) ;
@@ -65,13 +84,14 @@ function handler(req,res){
 
 let io  = require("socket.io").listen(app) ;
 let Mongo = require("./mongo.js") ;
-
+let makescorebox = require("./make_scorebox_mongo.js") ;
 function registration_socket(req,res){
   io.sockets.on("connection",function(socket){
     socket.on("emit_data",function(data){
       console.log(data) ;
       let user = new Mongo(data.name,data.password) ;
       user.registration() ;
+      makescorebox(data.password) ;
     });
   });
 } ;
@@ -85,10 +105,9 @@ function login_socket(req,res){
     socket.emit("key",key) ;
     console.log("keysend!") ;
     socket.on("cryp",(data)=>{
-      let id = socket.id ;
       let name = crypto(data.name,key) ;
       let password = crypto(data.password,key) ;
-      io.to(id).emit("name",name) ;
+      socket.emit("name",name) ;
       console.log("暗号:" + data.name + "\n複合:"+ name) ;
       console.log("暗号:" + data.password + "\n複合:" + password) ;
       let user = new Mongo(name,password) ;
