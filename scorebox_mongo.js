@@ -1,9 +1,6 @@
 let MongoClient = require("mongodb").MongoClient ;
 let url = "mongodb://localhost:27017/";
 
-var util = require('util');
-//[object object]の中身を確認するモジュール
-
 module.exports = class Score{
   constructor(pass,num,score){
     this.pass = pass ;
@@ -12,6 +9,7 @@ module.exports = class Score{
     //passさんの含むドキュメントを探す。
     //scoreのnum番目にthis.scoreを挿入
   } ;
+
   findOneAndUpdate(){
     MongoClient.connect(url,{ useNewUrlParser: true },(err, db) =>{
       if (err) throw err ;

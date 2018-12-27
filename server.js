@@ -9,6 +9,7 @@ let file = fs.readFileSync("./file.html") ;
 let chat = fs.readFileSync("./chat.html") ;
 let upload = fs.readFileSync("./upload.html") ;
 let teacher = fs.readFileSync("./teacher.html") ;
+let login_teacher = fs.readFileSync("./login_teacher.html") ;
 
 
 let url = require('url') ;
@@ -110,8 +111,13 @@ function login_socket(req,res){
       socket.emit("name",name) ;
       console.log("暗号:" + data.name + "\n複合:"+ name) ;
       console.log("暗号:" + data.password + "\n複合:" + password) ;
+      if(name=="teacher"&&password=="1234"){
+        console.log("あなたは教員です")　;
+      res.write(login_teacher) ;
+    }else{
       let user = new Mongo(name,password) ;
       user.login(req,res) ;
+    }
     });
   });
 } ;

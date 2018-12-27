@@ -2,7 +2,7 @@ let MongoClient = require("mongodb").MongoClient ;
 let fs  = require("fs") ;
 const login_true=fs.readFileSync("./login_true.html") ;
 const login_false=fs.readFileSync("./login_false.html") ;
-
+const login_teacher=fs.readFileSync("./login_teacher.html") ;
 
 let url = "mongodb://localhost:27017/";
 module.exports = class Mongo{
@@ -27,7 +27,6 @@ module.exports = class Mongo{
       if (err) throw err ;
       let myobj = {name : this.name, password : this.password } ;
       let dbo  = db.db("mydb") ;
-
       dbo.collection("students").findOne(myobj,(err,result)=>{
         if(result==null){
           console.log("あなたは登録されていません") ;
@@ -35,7 +34,7 @@ module.exports = class Mongo{
         }else{
           console.log("name:" + this.name + ",password:" + this.password + "は既に登録しています") ;
           res.write(login_true) ;
-        } ;
+        }
         db.close() ;
       }) ;
     }) ;
