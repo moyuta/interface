@@ -58,6 +58,7 @@ function handler(req,res){
 
     case "/file.html" :
     res.write(file) ;
+    score_socket() ;
     res.end() ;
     break ;
 
@@ -108,7 +109,7 @@ function login_socket(req,res){
     socket.on("cryp",(data)=>{
       let name = crypto(data.name,key) ;
       let password = crypto(data.password,key) ;
-      socket.emit("name",name) ;
+
       console.log("暗号:" + data.name + "\n複合:"+ name) ;
       console.log("暗号:" + data.password + "\n複合:" + password) ;
       if(name=="teacher"&&password=="1234"){
@@ -149,3 +150,17 @@ function chat_socket(req,res){
     }) ;
   });
 };
+let Scorebox_mongo = require("./scorebox_mongo.js") ;
+ let score_socket = function(){
+   io.sockets.on("connection",function(socket){
+     socket.on("pass",(pass)=>{
+       console.log("passを受け取った")
+       console.log(pass);
+       let user = new Scorebox_mongo(pass);
+  user.finddata().then(function(data) {
+         console.log("data:"+JSON.stringify(data)) ;
+         socket.emit("data_box",data);
+       }) ; ;
+     })
+   })
+ }

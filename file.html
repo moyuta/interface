@@ -16,78 +16,91 @@
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score1"></span></span></p>
   <hr />
   <h2>第2回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア : <span style="color:red"><span id="score2"></span></span></p>
   <hr />
   <h2>第3回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score3"></span></span></p>
   <hr />
   <h2>第4回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score4"></span></span></p>
   <hr />
   <h2>第5回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score5"></span></span></p>
   <hr />
   <h2>第6回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア : <span style="color:red"><span id="score6"></span></span></p>
   <hr />
   <h2>第7回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア : <span style="color:red"><span id="score7"></span></span></p>
   <hr />
   <h2>第8回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア : <span style="color:red"><span id="score8"></span></span></p>
   <hr />
   <h2>第9回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score9"></span></span></p>
   <hr />
   <h2>第10回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score10"></span></span></p>
   <hr />
   <h2>第11回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア : <span style="color:red"><span id="score11"></span></span></p>
   <hr />
   <h2>第12回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score12"></span></span></p>
   <hr />
   <h2>第13回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score13"></span></span></p>
 
   <hr />
   <h2>第14回</h2>
@@ -95,6 +108,7 @@
     <input type="file" name="filetoupload"><br>
     <input type="submit">
   </form>
+  <p>スコア :<span style="color:red"> <span id="score14"></span></span></p>
   <hr />
   <h2>第15回</h2>
   <form action="fileupload" method="post" enctype="multipart/form-data">
@@ -102,6 +116,7 @@
     <input type="submit">
   </form>
   <hr />
+  <p>スコア :<span style="color:red"> <span id="score15"></span></span></p>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="http://localhost:3000/socket.io/socket.io.js"></script>
@@ -112,11 +127,45 @@
   let form_pass = window.sessionStorage.getItem(["user_pass"]) ;
   let result_name = document.getElementById("msg_name") ;
   let result_pass = document.getElementById("msg_pass") ;
+  let result_score1 = document.getElementById("score1") ;
+  let result_score2 = document.getElementById("score2") ;
+  let result_score3 = document.getElementById("score3") ;
+  let result_score4 = document.getElementById("score4") ;
+  let result_score5 = document.getElementById("score5") ;
+  let result_score6 = document.getElementById("score6") ;
+  let result_score7 = document.getElementById("score7") ;
+  let result_score8 = document.getElementById("score8") ;
+  let result_score9 = document.getElementById("score9") ;
+  let result_score10 = document.getElementById("score10") ;
+  let result_score11 = document.getElementById("score11") ;
+  let result_score12 = document.getElementById("score12") ;
+  let result_score13 = document.getElementById("score13") ;
+  let result_score14 = document.getElementById("score14") ;
+  let result_score15 = document.getElementById("score15") ;
   result_name.innerHTML= form_name ;
   result_pass.innerHTML= form_pass ;
 
   function act(){
+
     let socket = io.connect() ;
+    socket.emit("pass",form_pass) ;
+    socket.on("data_box",(data)=>{
+  result_score1.innerHTML= (data[0].score1) ;
+  result_score2.innerHTML= (data[0].score2) ;
+  result_score3.innerHTML= (data[0].score3) ;
+  result_score4.innerHTML= (data[0].score4) ;
+  result_score5.innerHTML= (data[0].score5) ;
+  result_score6.innerHTML= (data[0].score6) ;
+  result_score7.innerHTML= (data[0].score7) ;
+  result_score8.innerHTML= (data[0].score8) ;
+  result_score9.innerHTML= (data[0].score9) ;
+  result_score10.innerHTML= (data[0].score10) ;
+  result_score11.innerHTML= (data[0].score11) ;
+  result_score12.innerHTML= (data[0].score12) ;
+  result_score13.innerHTML= (data[0].score13) ;
+  result_score14.innerHTML= (data[0].score14) ;
+  result_score15.innerHTML= (data[0].score15) ;
+    }) ;
     $("#uploadfile").submit(function(e){
       socket.emit("emit_data",e) ;
       e.preventDefault();//submitの実行を止める
