@@ -125,19 +125,18 @@ module.exports = class Score{
   finddata(){
     let a = this.pass ;
     let pr = new Promise(function(resolve, reject){
-    MongoClient.connect(url,{ useNewUrlParser: true },(err, db) =>{
-      if (err) throw err ;
-      let dbo = db.db("mydb") ;
-       let query = { pass : a } ;
-      dbo.collection("score").find(query).toArray(function(err, result) {
-    if (err) throw err;
-    resolve(result) ;
-    console.log("result :"+JSON.stringify(result));
-    db.close();
-  }) ;
-}) ;
-}) ;
-return pr;
+      MongoClient.connect(url,{ useNewUrlParser: true },(err, db) =>{
+        if (err) throw err ;
+        let dbo = db.db("mydb") ;
+        let query = { pass : a } ;
+        dbo.collection("score").find(query).toArray(function(err, result) {
+          if (err) throw err;
+          resolve(result) ;
+          console.log("result :"+JSON.stringify(result));
+          db.close();
+        }) ;
+      }) ;
+    }) ;
+    return pr;
+  }
 }
-}
-//
