@@ -13,7 +13,6 @@ let teacher = fs.readFileSync("./html/teacher.html") ;
 
 
 let url = require('url') ;
-let qs = require("querystring") ;
 let score = require("./score/score.js")
 function handler(req,res){
   res.writeHead(200,{"Content-Type":"text/html; charset=utf-8"}) ;

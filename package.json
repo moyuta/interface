@@ -1,0 +1,29 @@
+{
+  "name": "interface",
+  "version": "1.0.0",
+  "description": "chat.html ...チャット機能の表示",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moyuta/interface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moyuta/interface/issues"
+  },
+  "homepage": "https://github.com/moyuta/interface#readme",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "formidable": "^1.2.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "mongodb": "^3.1.10",
+    "socket.io": "^2.2.0",
+    "url": "^0.11.0"
+  }
+}
