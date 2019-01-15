@@ -18,4 +18,3 @@ void shot(){
   save(path) ;
   println("screen saved:" + path) ;
 }
-//
