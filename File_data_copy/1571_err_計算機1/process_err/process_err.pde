@@ -22,3 +22,4 @@ void draw(){
   translate(x, y);
   rect(0, 0, w, w);
 }
+//
