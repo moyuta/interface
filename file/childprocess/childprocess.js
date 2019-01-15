@@ -1,11 +1,11 @@
 const {spawn} = require("child_process") ;
-const file = require("./file.js") ;
+//const file = require("./file.js") ;
 let fs = require("fs");
-const DIR = "./File_data" ;
-const DIR_COPY = "./File_data_copy" ;
+const DIR = "../../File_data" ;
+const DIR_COPY = "../../File_data_copy" ;
 const DIR_Absolute = "/Users/motegiyuta/Desktop/interface/File_data_copy" ;
-const DIR_gifshot = "./processing/screenshot_gif/screenshot_gif.pde" ;
-const DIR_shot = "./processing/screenshot_image/screenshot_image.pde" ;
+const DIR_gifshot = "../../processing/screenshot_gif/screenshot_gif.pde" ;
+const DIR_shot = "../../processing/screenshot_image/screenshot_image.pde" ;
 const DIR_save = "/Users/motegiyuta/Desktop/save/" ;
 //送信されてきたzipファイルの名前を取得する
 //folder_name_zipはzipファイル
@@ -24,15 +24,15 @@ let folder_in_file = function(folder_name_zip){
 
     for(let i=0 ; i<files.length ;i++){
       //gif
-      copy(DIR_gifshot,DIR_COPY + "/"+folder_name+"/"+files[i] ) ;
+      //copy(DIR_gifshot,DIR_COPY + "/"+folder_name+"/"+files[i] ) ;
       //写真
-      //copy(DIR_shot,DIR_COPY + "/"+folder_name+"/"+files[i] ) ;
+      copy(DIR_shot,DIR_COPY + "/"+folder_name+"/"+files[i] ) ;
     }
     for(let i=0 ; i<files.length ;i++){
       //gif
-      insertion_gif(DIR_COPY + "/"+folder_name+"/"+files[i]+"/"+files[i]+".pde") ;
+      //insertion_gif(DIR_COPY + "/"+folder_name+"/"+files[i]+"/"+files[i]+".pde") ;
       //写真
-      //insertion(DIR_COPY + "/"+folder_name+"/"+files[i]+"/"+files[i]+".pde") ;
+      insertion(DIR_COPY + "/"+folder_name+"/"+files[i]+"/"+files[i]+".pde") ;
     }
     for(let i=0 ; i<files.length ;i++){
       pj(DIR_Absolute+"/"+folder_name+"/"+files[i]) ;
@@ -50,8 +50,9 @@ let zip = function(dir, path){
 
 let pj = function(path) {
   let process = spawn("processing-java", ["--sketch=" + path  ,"--run" ]) ;
+
   process.on("exit", (code) => {
-    console.log("processing finish!") ;
+    console.log("processing finish!"+code) ;
   }) ;
 } ;
 

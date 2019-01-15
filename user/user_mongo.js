@@ -1,8 +1,8 @@
 let MongoClient = require("mongodb").MongoClient ;
 let fs  = require("fs") ;
-const login_true=fs.readFileSync("./login_true.html") ;
-const login_false=fs.readFileSync("./login_false.html") ;
-const login_teacher=fs.readFileSync("./login_teacher.html") ;
+const login_true=fs.readFileSync("./user/html/login_true.html") ;
+const login_false=fs.readFileSync("./user/html/login_false.html") ;
+const login_teacher=fs.readFileSync("./user/html/login_teacher.html") ;
 
 let url = "mongodb://localhost:27017/";
 module.exports = class Mongo{

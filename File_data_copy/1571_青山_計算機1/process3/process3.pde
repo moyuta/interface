@@ -8,10 +8,10 @@ void setup() {
   y = height/2.0;
   speed = 10.0;
   w = 100;
-  frameRate(50);shot_gif();draw(); 
+  draw();shot();exit();
 }
 
-void draw(){frame(); 
+void draw(){
   background(255,0,0);
   x += speed;
   if (x > width) {

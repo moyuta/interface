@@ -1,4 +1,4 @@
-let Scorebox_mongo = require("./scorebox_mongo.js") ;
+let Scorebox_mongo = require("./score_Mongo/scorebox_mongo.js") ;
  let score = function(data){
    console.log(data) ;
  let p = /[=_]/ ;

@@ -2,19 +2,19 @@ let app = require("http").createServer(handler).listen(3000) ;
 console.log("server start!") ;
 
 let fs  = require("fs") ;
-let login = fs.readFileSync("./login.html") ;
-let registration = fs.readFileSync("./registration.html") ;
-let top =  fs.readFileSync("./top.html") ;
-let file = fs.readFileSync("./file.html") ;
-let chat = fs.readFileSync("./chat.html") ;
-let upload = fs.readFileSync("./upload.html") ;
-let teacher = fs.readFileSync("./teacher.html") ;
-let login_teacher = fs.readFileSync("./login_teacher.html") ;
+let login = fs.readFileSync("./html/login.html") ;
+let registration = fs.readFileSync("./html/registration.html") ;
+let top =  fs.readFileSync("./html/top.html") ;
+let file = fs.readFileSync("./html/file.html") ;
+let chat = fs.readFileSync("./html/chat.html") ;
+let upload = fs.readFileSync("./html/upload.html") ;
+let teacher = fs.readFileSync("./html/teacher.html") ;
+//let login_teacher = fs.readFileSync("./html/login_teacher.html") ;
 
 
 let url = require('url') ;
 let qs = require("querystring") ;
-let score = require("./score.js")
+let score = require("./score/score.js")
 function handler(req,res){
   res.writeHead(200,{"Content-Type":"text/html; charset=utf-8"}) ;
   let q = url.parse(req.url, true) ;
@@ -85,8 +85,8 @@ function handler(req,res){
 
 
 let io  = require("socket.io").listen(app) ;
-let Mongo = require("./mongo.js") ;
-let makescorebox = require("./make_scorebox_mongo.js") ;
+let Mongo = require("./user/user_mongo.js") ;
+let makescorebox = require("./user/make_scorebox_mongo.js") ;
 function registration_socket(req,res){
   io.sockets.on("connection",function(socket){
     socket.on("emit_data",function(data){
@@ -99,7 +99,7 @@ function registration_socket(req,res){
 } ;
 
 
-let crypto = require("./crypto.js") ;
+let crypto = require("./Crypto/crypto.js") ;
 function login_socket(req,res){
 
   io.sockets.on("connection",(socket)=>{
@@ -123,7 +123,7 @@ function login_socket(req,res){
   });
 } ;
 
-let filemove = require("./file.js") ;
+let filemove = require("./file/file.js") ;
 
 function file_socket(req,res){
   filemove(req,res);
@@ -137,8 +137,8 @@ function file_socket(req,res){
     });
   });
 } ;
-let chat_insert=require("./chat.js").insert ;
-let chat_find=require("./chat.js").findall ;
+let chat_insert=require("./chat/chat.js").insert ;
+let chat_find=require("./chat/chat.js").findall ;
 function chat_socket(req,res){
   io.sockets.on("connection",function(socket){
     socket.on("msg",function(data){
@@ -150,7 +150,7 @@ function chat_socket(req,res){
     }) ;
   });
 };
-let Scorebox_mongo = require("./scorebox_mongo.js") ;
+let Scorebox_mongo = require("./score/score_Mongo/scorebox_mongo.js") ;
  let score_socket = function(){
    io.sockets.on("connection",function(socket){
      socket.on("pass",(pass)=>{
