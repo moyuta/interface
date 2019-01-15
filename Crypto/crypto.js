@@ -6,3 +6,4 @@ let crypto=function(text,key){
 } ;
 
 module.exports = crypto ;
+//
