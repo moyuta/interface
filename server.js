@@ -9,7 +9,7 @@ let file = fs.readFileSync("./html/file.html") ;
 let chat = fs.readFileSync("./html/chat.html") ;
 let upload = fs.readFileSync("./html/upload.html") ;
 let teacher = fs.readFileSync("./html/teacher.html") ;
-//let login_teacher = fs.readFileSync("./html/login_teacher.html") ;
+let login_teacher = fs.readFileSync("./html/login_teacher.html") ;
 
 
 let url = require('url') ;
